@@ -5,7 +5,7 @@ class Product(models.Model):
     product_name = models.CharField(max_length=200)
     product_type = models.CharField(max_length=200)
     description = models.CharField(max_length=600)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
     product_image = models.ImageField(
         upload_to="productImage/", max_length=250, null=True, default=None
     )

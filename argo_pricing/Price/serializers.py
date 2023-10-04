@@ -10,6 +10,7 @@ class PriceSerializer2(serializers.ModelSerializer):
             "user_id_foreign",
             "product_id_foreign",
             "location_id_foreign",
+            "time_id_foreign"
         ]
 
 

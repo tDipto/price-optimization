@@ -1,7 +1,7 @@
 from django.db.models import Avg, Max, Min
 from .serializers import PriceSerializer, PriceSerializer2
 from .models import Product, Location, Price, Time
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 import datetime
 from rest_framework.response import Response
 
@@ -32,11 +32,11 @@ class PriceUpdateAPI(ListCreateAPIView):
         serializer.save(time_id_foreign=current_time)
 
 
-class GetSingleProductPriceAPI(ListCreateAPIView):
+class GetSingleProductPriceAPI(RetrieveUpdateDestroyAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = PriceSerializer
 
-    def get(self, request, product_id, location_id, year=None, month=None, day=None):
+    def get(self, request, product_id, location_id):
         location = Location.objects.get(id=location_id)
         product = Product.objects.get(id=product_id)
 
@@ -87,7 +87,7 @@ class GetAllProductPriceAPI(ListCreateAPIView):
     def get_queryset(self):
         pass
 
-    def get(self, request, location_id, year=None, month=None, day=None):
+    def get(self, request, location_id):
         location = Location.objects.get(id=location_id)
         products = Product.objects.all()
         result = []

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Price
+from .models import Price,Time
 
 
 class ShowPrice(admin.ModelAdmin):
@@ -12,3 +12,4 @@ class ShowPrice(admin.ModelAdmin):
 
 
 admin.site.register(Price, ShowPrice)
+admin.site.register(Time)

@@ -15,12 +15,6 @@ class GetGraphAPI(ListCreateAPIView):
         request,
         product_id,
         location_id,
-        Syear=None,
-        Eyear=None,
-        Smonth=None,
-        Emonth=None,
-        Sday=None,
-        Eday=None,
     ):
         location = Location.objects.get(id=location_id)
         product = Product.objects.get(id=product_id)
