@@ -88,9 +88,9 @@ class GetAllProductPriceAPI(ListCreateAPIView):
         pass
 
     def get(self, request, location_id):
+       
         location = Location.objects.get(id=location_id)
         products = Product.objects.all()
-        result = []
 
         year = request.query_params.get("year")
         month = request.query_params.get("month")
@@ -102,6 +102,15 @@ class GetAllProductPriceAPI(ListCreateAPIView):
             month = current_date.month
             day = current_date.day
 
+        queryset = Price.objects.filter(location_id_foreign=location_id)
+
+        if year:
+            queryset = queryset.filter(time_id_foreign__year=year)
+        if month:
+            queryset = queryset.filter(time_id_foreign__month=month)
+        if day:
+            queryset = queryset.filter(time_id_foreign__day=day)
+
         response_data = {
             "location": location.district,
             "year": int(year) if year else None,
@@ -110,18 +119,10 @@ class GetAllProductPriceAPI(ListCreateAPIView):
             "products": [],
         }
 
-        queryset = Price.objects.filter(location_id_foreign=location_id)
-        if year:
-            queryset = queryset.filter(time_id_foreign__year=year)
-        if month:
-            queryset = queryset.filter(time_id_foreign__month=month)
-        if day:
-            queryset = queryset.filter(time_id_foreign__day=day)
-
         for product in products:
-            queryset = queryset.filter(product_id_foreign=product.id)
+            product_queryset = queryset.filter(product_id_foreign=product.id)
 
-            price_stats = queryset.aggregate(
+            price_stats = product_queryset.aggregate(
                 avg_price=Avg("user_price"),
                 max_price=Max("user_price"),
                 min_price=Min("user_price"),
@@ -136,6 +137,4 @@ class GetAllProductPriceAPI(ListCreateAPIView):
 
             response_data["products"].append(product_data)
 
-        result.append(response_data)
-
-        return Response(result)
+        return Response(response_data)

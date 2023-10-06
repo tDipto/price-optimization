@@ -76,17 +76,32 @@ class GetGraphAPI(ListCreateAPIView):
 
                         process_date_range(queryset, f"{m}")
             else:
-                # Syear/month - Syear/month
-                for y in range(int(Syear), int(Syear) + 1):
-                    for m in range(int(Smonth), int(Emonth) + 1):
-                        queryset = Price.objects.filter(
-                            product_id_foreign=product_id,
-                            location_id_foreign=location_id,
-                            time_id_foreign__year=y,
-                            time_id_foreign__month=m,
-                        )
+                if not Emonth:
+                    # Syear/Smonth/Sday - Eday
+                    for y in range(int(Syear), int(Syear) + 1):
+                        for m in range(int(Smonth), int(Smonth) + 1):
+                            for d in range(int(Sday), int(Eday) + 1):
+                                queryset = Price.objects.filter(
+                                    product_id_foreign=product_id,
+                                    location_id_foreign=location_id,
+                                    time_id_foreign__year=y,
+                                    time_id_foreign__month=m,
+                                    time_id_foreign__day=d,
+                                )
 
-                        process_date_range(queryset, f"{y}-{m}")
+                                process_date_range(queryset, f"{y}-{m}-{d}")
+                else:
+                    # Syear/month - Syear/month
+                    for y in range(int(Syear), int(Syear) + 1):
+                        for m in range(int(Smonth), int(Emonth) + 1):
+                            queryset = Price.objects.filter(
+                                product_id_foreign=product_id,
+                                location_id_foreign=location_id,
+                                time_id_foreign__year=y,
+                                time_id_foreign__month=m,
+                            )
+
+                            process_date_range(queryset, f"{y}-{m}")
         else:
             for y in range(int(Syear), int(Eyear) + 1):
                 queryset = Price.objects.filter(
