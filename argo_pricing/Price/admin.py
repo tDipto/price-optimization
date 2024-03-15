@@ -9,7 +9,19 @@ class ShowPrice(admin.ModelAdmin):
         "location_id_foreign",
         "time_id_foreign",
     ]
+    class Meta:
+        model = Price
+
+class ShowTime(admin.ModelAdmin):
+    list_display = [
+        "year" ,
+        "month",
+        "day" ,
+        "hour"
+    ]
+    class Meta:
+        model = Time
 
 
 admin.site.register(Price, ShowPrice)
-admin.site.register(Time)
+admin.site.register(Time,ShowTime)

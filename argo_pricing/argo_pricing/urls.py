@@ -23,6 +23,7 @@ from drf_spectacular.views import (
 )
 
 urlpatterns = [
+    path("", admin.site.urls),
     path("admin/", admin.site.urls),
     path("api/", include("User.urls")),
     path("api/", include("Product.urls")),

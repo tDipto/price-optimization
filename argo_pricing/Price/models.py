@@ -11,7 +11,10 @@ class Time(models.Model):
     hour = models.PositiveSmallIntegerField()
 
     def __str__(self):
-        return f"year: {self.year}, month: {self.month}, day: {self.day}, hour: {self.hour}"
+        # return f"year: {self.year}, month: {self.monarh}, day: {self.day}, hour: {self.hour}"
+        return f" {self.day}/{self.month}/{self.year} : {self.hour}"
+      
+
 
 
 class Price(models.Model):
@@ -21,5 +24,5 @@ class Price(models.Model):
     product_id_foreign = models.ForeignKey(Product, on_delete=models.CASCADE)
     location_id_foreign = models.ForeignKey(Location, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"Product: {self.product_id_foreign},Price: {self.user_price}, Location: {self.location_id_foreign}, Time: {self.time_id_foreign}"
+    # def __str__(self):
+    #     return f"Product: {self.product_id_foreign},Price: {self.user_price}, Location: {self.location_id_foreign}, Time: {self.time_id_foreign}"
